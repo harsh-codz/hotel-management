@@ -1,0 +1,9 @@
+2025-04-27 16:25:11.311611+05:30 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "INSERT INTO role (name) VALUES ('ROLE_ADMIN') [*]ON CONFLICT (name) DO NOTHING"; SQL statement:
+INSERT INTO role (name) VALUES ('ROLE_ADMIN') ON CONFLICT (name) DO NOTHING [42000-232]
+2025-04-27 16:25:11.313608+05:30 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "INSERT INTO role (name) VALUES ('ROLE_STAFF') [*]ON CONFLICT (name) DO NOTHING"; SQL statement:
+INSERT INTO role (name) VALUES ('ROLE_STAFF') ON CONFLICT (name) DO NOTHING [42000-232]
+2025-04-27 16:25:11.319608+05:30 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "INSERT INTO role (name) VALUES ('ROLE_CUSTOMER') [*]ON CONFLICT (name) DO NOTHING"; SQL statement:
+INSERT INTO role (name) VALUES ('ROLE_CUSTOMER') ON CONFLICT (name) DO NOTHING [42000-232]
