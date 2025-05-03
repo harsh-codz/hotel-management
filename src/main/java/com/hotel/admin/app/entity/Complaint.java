@@ -35,14 +35,8 @@ public class Complaint {
     @Column(nullable = false) // US022
     private LocalDateTime submissionDate;
 
-    // Option 1: Use Category Entity
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "category_id", nullable = false) // US022
-    private ComplaintCategory category;
-
-    // Option 2: Use String if category entity is overkill
-    // @Column(nullable = false, length = 100)
-    // private String category;
+    @Column(nullable = false, length = 100)
+     private String category;
 
     @Column(nullable = false, columnDefinition = "TEXT") // US022
     private String description;

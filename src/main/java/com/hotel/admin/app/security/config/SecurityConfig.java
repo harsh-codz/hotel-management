@@ -67,7 +67,10 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth ->
                 auth.requestMatchers("/api/auth/login").permitAll() // Permit access TO the login processing URL
                     .requestMatchers("/api/auth/logout").permitAll() // Permit access TO the logout processing URL
-                    .requestMatchers("/h2-console/**").permitAll() // Permit H2 console
+                    .requestMatchers("/h2-console/**").permitAll()
+                    .requestMatchers("/swagger-ui.html").permitAll()
+                    .requestMatchers("/swagger-ui/**").permitAll()
+                    .requestMatchers("/v3/api-docs/**").permitAll()  // Permit H2 console
                     .requestMatchers("/api/admin/**").hasRole("ADMIN") // Restrict admin endpoints
                     .requestMatchers("/api/staff/**").hasAnyRole("ADMIN", "STAFF") // Restrict staff endpoints
                     .anyRequest().authenticated() // Require authentication for everything else

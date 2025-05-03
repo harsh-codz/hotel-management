@@ -17,7 +17,7 @@ public interface ComplaintRepository extends JpaRepository<Complaint, Long>, Jpa
 
     // Method for Staff view (filtering by assignedStaff ID)
     Page<Complaint> findByAssignedStaffId(Long staffId, Pageable pageable);
-    long countByRoomStatus(RoomStatus status);
+  
     long countByStatusIn(List<ComplaintStatus> asList);
 
      // Add other specific finders if needed without Specifications

@@ -26,11 +26,7 @@ public class ComplaintController {
 
     private final ComplaintService complaintService;
 
-    // GET /api/admin/complaint-categories (Helper)
-    @GetMapping("/categories")
-    public ResponseEntity<List<ComplaintCategoryResponse>> getComplaintCategories() {
-        return ResponseEntity.ok(complaintService.getAllCategories());
-    }
+ 
 
     // GET /api/admin/complaints (List/Search All - Admin)
     @GetMapping

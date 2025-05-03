@@ -15,7 +15,7 @@ public class ComplaintResponse {
     private String complaintId;
     private UserBasicInfoResponse user; // Customer who submitted
     private LocalDateTime submissionDate;
-    private ComplaintCategoryResponse category; // Or String categoryName
+    private String categoryName; // Or String categoryName
     private String description;
     private ComplaintStatus status;
     private UserBasicInfoResponse assignedStaff; // Staff assigned (can be null)

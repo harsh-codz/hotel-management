@@ -19,10 +19,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -34,7 +31,6 @@ public class ComplaintService {
 
     private final ComplaintRepository complaintRepository;
     private final UserRepository userRepository;
-    private final ComplaintCategoryRepository categoryRepository; // If using category entity
     private final BillService.UserInfoService userInfoService; // Reusing user mapping helper
 
     // --- Admin Operations (US022) ---
@@ -58,12 +54,9 @@ public class ComplaintService {
         User user = findUserByIdOrFail(request.getUserId());
         // Optional: Validate user role is CUSTOMER?
 
-        ComplaintCategory category = findCategoryByIdOrFail(request.getCategoryId()); // If using entity
-
         Complaint complaint = new Complaint();
         complaint.setUser(user);
-        complaint.setCategory(category); // If using entity
-        // complaint.setCategory(request.getCategoryName()); // If using String
+        complaint.setCategory(request.getCategory());
         complaint.setDescription(request.getDescription());
         complaint.setSubmissionDate(LocalDateTime.now());
         complaint.setStatus(ComplaintStatus.OPEN); // Default status
@@ -221,13 +214,7 @@ public class ComplaintService {
         return mapToComplaintResponse(complaint);
     }
 
-    // --- Lookup data ---
-    public List<ComplaintCategoryResponse> getAllCategories() {
-        return categoryRepository.findAll().stream()
-                .map(c -> new ComplaintCategoryResponse(c.getId(), c.getName()))
-                .collect(Collectors.toList());
-    }
-
+ 
     // --- Helper Methods ---
 
     private Complaint findComplaintByIdOrFail(Long id) {
@@ -240,10 +227,6 @@ public class ComplaintService {
                 .orElseThrow(() -> new ResourceNotFoundException("User", "id", id));
     }
 
-     private ComplaintCategory findCategoryByIdOrFail(Long id) {
-        return categoryRepository.findById(id)
-                .orElseThrow(() -> new BadRequestException("Invalid Complaint Category ID: " + id));
-    }
 
      private User getCurrentAuthenticatedUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -276,9 +259,9 @@ public class ComplaintService {
             response.setUser(userInfoService.mapToUserBasicInfoResponse(complaint.getUser()));
         }
         if (complaint.getCategory() != null) { // If using category entity
-             response.setCategory(new ComplaintCategoryResponse(complaint.getCategory().getId(), complaint.getCategory().getName()));
+            response.setCategoryName(complaint.getCategory());
         }
-         // else { response.setCategoryName(complaint.getCategory()); } // If using String category
+        
 
         if (complaint.getAssignedStaff() != null) {
             response.setAssignedStaff(userInfoService.mapToUserBasicInfoResponse(complaint.getAssignedStaff()));

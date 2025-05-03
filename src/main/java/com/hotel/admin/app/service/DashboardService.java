@@ -78,13 +78,19 @@ public class DashboardService {
         long totalCustomers = userRepository.countByRoleName("ROLE_CUSTOMER");
 
         // --- Chart Data ---
-        LocalDateTime sevenDaysAgo = startOfToday.minusDays(7);
-        List<DateCount> recentCountsList = bookingRepository.countBookingsGroupedByDate(sevenDaysAgo);
-        Map<String, Long> recentBookingCountsMap = recentCountsList.stream()
-                .collect(Collectors.toMap(
-                        dc -> dc.date().toString(), // Key as "YYYY-MM-DD" string
-                        DateCount::count // Value is the count
-                ));
+      
+LocalDateTime sevenDaysAgo = startOfToday.minusDays(7);
+// Call the new repository method
+List<Object[]> rawCounts = bookingRepository.getBookingCountsFromDate(sevenDaysAgo);
+
+// Process the results in Java using Streams
+Map<String, Long> recentBookingCountsMap = rawCounts.stream()
+        .collect(Collectors.groupingBy(
+                // Key Mapper: Extract LocalDate from LocalDateTime (Object[0]) and convert to String
+                result -> ((LocalDateTime) result[0]).toLocalDate().toString(),
+                // Value Mapper: Sum the counts (Object[1] which is Long) for each date
+                Collectors.summingLong(result -> (Long) result[1])
+        ));
 
         // --- Build Response DTO ---
         return DashboardOverviewResponse.builder()

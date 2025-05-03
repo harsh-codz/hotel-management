@@ -12,8 +12,8 @@ public class ComplaintRequest {
     @NotNull(message = "User ID (Customer) is mandatory")
     private Long userId;
 
-    @NotNull(message = "Category ID is mandatory") // If using category entity
-    private Long categoryId;
+    @NotNull(message = "Category string is mandatory") // If using category entity
+    private String category;
     // OR: @NotBlank if using String category in entity
 
     @NotBlank(message = "Description is mandatory")
